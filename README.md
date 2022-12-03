@@ -95,3 +95,6 @@ Response
 {"msg":"ok","code":200,"data":"http://127.0.0.1:12138/s/aFdlm"}
 ```
 
+this project's initial version is forked from https://github.com/ellermister/shorturl, thanks to [ellermister](https://github.com/ellermister) !
+
+
