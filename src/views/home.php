@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html lang="<?php echo get_lang() ?>">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>GENERATE SHORT URL</title>
+    <title><?php echo __('PHP URL Shortener') ?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/css/editormd.min.css"/>
     <style type="text/css">
@@ -15,26 +15,26 @@
 </head>
 <body>
 
-<div style="margin-bottom: 1rem;">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">SHORTURL</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+<div class="container mt-3 mb-3">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/"><?php echo __('SHORT URL SERVICE') ?></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+                aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <!-- <span class="navbar-text"><?php echo __('PHP URL Shortener') ?></span> -->
+        <div class="collapse navbar-collapse" id="navbar">
+            <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link" href="/about"><?php echo __('About') ?></a>
+            </div>
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="/"><?php echo __('GENERATE') ?> <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link"
-                   href="https://github.com/ellermister/shorturl"><?php echo __('GITHUB') ?></a>
-                <a class="nav-item nav-link" href="https://github.com/ellermister"><?php echo __('ABOUT') ?></a>
+                <a class="nav-item nav-link" href="https://github.com/crogram/php-app-shorturl" target="_blank">Github</a>
             </div>
         </div>
     </nav>
 </div>
 
-<div class="container">
-
+<div class="container mt-3 mb-3">
     <div class="card text-center">
         <div class="card-header">
             <?php echo __('GENERATE SHORT URL') ?>
@@ -42,23 +42,27 @@
         <div class="card-body">
             <h5 class="card-title"><?php echo __('Quickly generate URL') ?></h5>
 
-            <!-- <div class="form-group">
-                <label for="urlTextInput">URL</label>
-                <input type="text" id="urlTextInput" class="form-control" placeholder="Enter URL link">
-            </div> -->
+            <p><?php echo __('This site generates a total of :url_record_history links，Currently active :url_active_history', array('url_record_history' => getUrlRecordHistory(), 'url_active_history' => getUrlRecord())) ?>。</p>
 
             <div class="input-group mb-3">
-                <input type="text" id="urlTextInput" class="form-control"
-                       placeholder="<?php echo __('Enter URL link') ?>">
+                <input type="text" id="urlTextInput" class="form-control" placeholder="<?php echo __('Enter URL link') ?>">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="button" id="generate"
-                            onclick="javascript:generate()"><?php echo __('Generate') ?></button>
+                    <button class="btn btn-primary" type="button" id="generate" onclick="generate()"><?php echo __('Generate') ?></button>
                 </div>
             </div>
+
+            <div class="form-group hidden" extent="radio-password">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><?php echo __('Input Password') ?></span>
+                    </div>
+                    <input type="password" class="form-control" id="input-password" placeholder="<?php echo __('Please Input Password') ?>">
+                </div>
+            </div>
+
             <div class="mb-3" id="extent-element">
                 <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" id="radio-normal" name="encrypt_type" class="custom-control-input"
-                           value="normal">
+                    <input type="checkbox" id="radio-normal" name="encrypt_type" class="custom-control-input" value="normal" checked>
                     <label class="custom-control-label" for="radio-normal"><?php echo __('normal') ?></label>
                 </div>
                 <div class="custom-control custom-checkbox custom-control-inline">
@@ -67,13 +71,12 @@
                     <label class="custom-control-label" for="radio-dynamic"><?php echo __('no referer') ?></label>
                 </div>
                 <div class="custom-control custom-checkbox custom-control-inline">
-                    <input type="checkbox" id="radio-encrypt" name="encrypt_type" class="custom-control-input"
-                           value="encrypt" checked="">
+                    <input type="checkbox" id="radio-encrypt" name="encrypt_type" class="custom-control-input" value="encrypt">
                     <label class="custom-control-label" for="radio-encrypt"><?php echo __('encrypt redirect') ?></label>
                 </div>
                 <div class="custom-control custom-checkbox custom-control-inline">
                     <input type="checkbox" id="radio-fake-page" name="encrypt_type" class="custom-control-input"
-                           value="fake_page" checked="">
+                           value="fake_page">
                     <label class="custom-control-label" for="radio-fake-page"><?php echo __('Fake page') ?></label>
                 </div>
                 <div class="custom-control custom-checkbox custom-control-inline">
@@ -116,9 +119,20 @@
                 </div>
             </div>
 
+            <div id="let-dialog"></div>
+
+            <div class="form-group hidden" extent="radio-whisper">
+                <label for="exampleFormControlTextarea1">whisper</label>
+                <div id="editor" style="width: 100%;height: 500px;">
+                    <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
+                    <textarea id="input-whisper" style="display:none;">### Write a message...</textarea>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-body text-left">
-                    <p><b> 🏄🏼‍♀️ <?php echo __('normal') ?>: </b><?php echo __('Jump directly to the website') ?><br>
+                    <p>
+                        <b> 🏄🏼‍♀️ <?php echo __('normal') ?>: </b><?php echo __('Jump directly to the website') ?><br>
                         <b>🐸<?php echo __('no referer') ?>: </b><?php echo __('No Referer parameter') ?><br>
                         <b>🕷 <?php echo __('encrypt redirect') ?>
                             : </b><?php echo __('Encrypted access, anti-crawler') ?><br>
@@ -140,22 +154,8 @@
                 </div>
             </div>
 
-            <div class="form-group hidden" extent="radio-password">
-                <label for="input-password">Password</label>
-                <input type="password" class="form-control" id="input-password" placeholder="Password">
-            </div>
-            <div class="form-group hidden" extent="radio-whisper">
-                <label for="exampleFormControlTextarea1">whisper</label>
-                <div id="editor" style="width: 100%;height: 500px;">
-                    <!-- Tips: Editor.md can auto append a `<textarea>` tag -->
-                    <textarea id="input-whisper" style="display:none;">### Write a message...</textarea>
-                </div>
-            </div>
-
-            <div id="let-dialog"></div>
-
             <div class="modal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Result</h5>
@@ -164,8 +164,9 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p id="copy-text"><input type="text" name="" id="" value="https://www.baidu.com"
-                                                     readonly="readonly"/></p>
+                            <p id="copy-text">
+                                <input type="text" class="form-control" value="https://www.baidu.com" readonly="readonly" onclick="javascript:copy()" />
+                            </p>
                             <p id="copy-result"></p>
                         </div>
                         <div class="modal-footer">
@@ -177,27 +178,26 @@
             </div>
 
         </div>
-        <div class="card-footer text-muted">
-            <?php echo __('This site generates a total of :url_record_history links，Currently active :url_active_history', ['url_record_history' => getUrlRecordHistory(), 'url_active_history' => getUrlRecord()]) ?>
-            。
+        <div class="card-footer text-muted text-center">
+            <p class="py-0 mb-0">&copy <?php echo date('Y');?> <a href="http://uiisc.org" target="_blank">UIISC</a> All Rights Reserved. Powered by <a href="https://crogram.org" target="_blank">CROGRAM</a></p>
         </div>
     </div>
 </div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/editor.md@1.5.0/editormd.min.js"></script>
+
 <script type="text/html" id="tpl-alert">
     <div class="alert alert-{{status}} alert-dismissible fade show" role="alert">
-        <strong>{{status}}!</strong> {{message}}
+        <strong>{{message}}</strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 </script>
+
 <script type="text/javascript">
     var editor = null;
 
@@ -215,7 +215,6 @@
             document.execCommand('copy');
             $('#copy-result').text('copy success!');
         }
-
     }
 
     $('#extent-element input[type="checkbox"]').click(function () {
@@ -287,9 +286,12 @@
                 if (result.code == 200) {
                     $('#copy-text input').val(result.data);
                     message(result.msg, 'success');
+                    // clear
+                    $('#copy-result').text('');
+                    // show modal
                     $('.modal').modal('show');
                 } else {
-                    message(result.msg, 'error');
+                    message(result.msg, 'warning');
                 }
             }
         });

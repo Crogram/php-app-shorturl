@@ -1,13 +1,14 @@
-## 🔗PHP单文件短链接
+# php-app-shorturl
 
-本程序只有一个文件，极其方便部署。
+## 🔗 PHP 轻量级短链接系统
+
+本程序是一款简单的短链接生成系统，极其方便部署。
 
 #### 体验预览
 
-<https://x007.in/>
+[url.uiisc.ml](http://url.uiisc.ml)
 
-
-[![preview](https://s1.ax1x.com/2020/11/05/BWYWE4.png)](https://imgchr.com/i/BWYWE4)
+![preview](WX20221126-114544.jpg)
 
 ### 支持功能
 
@@ -39,13 +40,24 @@ php -S 127.0.0.1:12138
 
 http://127.0.0.1:12138
 
-##### nginx 配置
+##### Nginx 配置
 
 ```nginx
 location / {
     try_files $uri $uri/ /index.php?$query_string;
 }
 ```
+
+##### Apache 配置
+
+```apl
+RewriteEngine on
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php/?$1 [L]
+```
+
 
 ##### 二级目录配置
 
@@ -55,7 +67,7 @@ location / {
 define('SUB_PATH', '/shorturl/');
 ```
 
-同样，这里 nginx 要做配置
+同样，这里 Nginx 要做配置
 
 ```nginx
  location /shorturl {
@@ -63,12 +75,18 @@ define('SUB_PATH', '/shorturl/');
  }
 ```
 
+这里 Apache 要做配置
+
+```apl
+RewriteRule ^(.*)$ /shorturl/index.php/?$1 [L]
+```
+
 #### API
 
 ##### 生成短链接
 
 ```bash
-curl -s http://127.0.0.1:12138/api/link?url=https://map.baidu.com/poi/%E4%B9%9D%E9%BE%99%E5%85%AC%E5%9B%AD/@12713897.395906774,2531599.1717763273,15.45z
+curl -s http://127.0.0.1:12138/api/link?url=https://uinote.com/article-430.html
 ```
 
 Response
@@ -76,3 +94,4 @@ Response
 ```json
 {"msg":"ok","code":200,"data":"http://127.0.0.1:12138/s/aFdlm"}
 ```
+
