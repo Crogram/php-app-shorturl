@@ -23,6 +23,7 @@ $lang_package = array(
         'Mobile access only'   => '仅限手机访问',
         'Forked from'          => '衍生自',
         'More items'           => '更多项目',
+        'Friendship links'     => '友情链接',
 
         'Jump directly to the website'                                        => '直接跳转到目标网站',
         'No Referer parameter'                                                => '无 Referer 参数，目标网站无法获取来源站地址',

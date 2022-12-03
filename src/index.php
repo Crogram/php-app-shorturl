@@ -1,8 +1,8 @@
 <?php
 
-// error_reporting(E_ALL);
-// ini_set('log_errors', true);
+error_reporting(E_ALL);
 
+header("X-Powered-By: URL Shortener");
 date_default_timezone_set('Asia/Shanghai');
 define('ROOT_PATH', __DIR__);
 define('CACHE_TYPE', 'file'); // 支持REDIS OR FILE
@@ -182,10 +182,10 @@ function hashToUrl($hash)
  *
  * @param $url
  * @param string $encrypt_type
- * @param string $extent
+ * @param array $extent
  * @return string
  */
-function urlToShort($url, $encrypt_type = 'encrypt', $extent = '')
+function urlToShort($url, $encrypt_type = 'encrypt', $extent = [])
 {
     if (!preg_match('/^[A-z]+:\/\//i', $url)) {
         $url = 'http://' . $url;
@@ -727,13 +727,13 @@ try {
             $response = json(__('url cannot be empty'), 500);
         } else if (mb_strlen($url) > 2047) {
             $response = json(__('Too long url'), 500);
-        } else if (mb_strlen($extent) > 10000) {
+        } else if (!empty($extent) && mb_strlen(json_encode($extent)) > 10000) {
             $response = json(__('Too much content'), 500);
         } else {
-            $extent = json_decode($extent, true);
             $response = urlToShort($url, $encrypt_type, isset($extent) && !empty($extent) ? $extent : []);
             $response = json(__('Link created successfully'), 200, $response);
         }
+        header('Content-type:text/json;charset=utf-8');
         echo $response;
     });
 

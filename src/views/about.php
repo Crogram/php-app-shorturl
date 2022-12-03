@@ -33,8 +33,15 @@
         <div class="card-header text-center"><?php echo __('PHP URL Shortener') ?></div>
         <div class="card-body">
             <p><?php echo __('GITHUB'); ?>: <a href="https://github.com/crogram/php-app-shorturl" target="_blank">https://github.com/crogram/php-app-shorturl</a></p>
-            <p><?php echo __('Forked from'); ?>: <a href="https://github.com/ellermister/shorturl" target="_blank">https://github.com/ellermister/shorturl</a></p>
-            <p><?php echo __('More items'); ?>: <a href="https://crogram.org" target="_blank">https://crogram.org</a></p>
+            <hr />
+            <p><?php echo __('More items'); ?>:</p>
+            <ul>
+                <li><a href="https://github.com/crogram" target="_blank">https://github.com/crogram</a></li>
+                <li><a href="https://crogram.org" target="_blank">https://crogram.org</a></li>
+                <li><a href="https://github.com/jksdou" target="_blank">Jackson Dou</a></li>
+            </ul>
+            <hr />
+            <p><?php echo __('Friendship links'); ?>: <a href="http://uinote.com" target="_blank">UINOTE</a>, <a href="http://uiisc.tk" target="_blank">UIISC.TK</a>, <a href="http://uiisc.ml" target="_blank">UIISC.ML</a></p>
         </div>
         <div class="card-footer text-muted text-center">
             <p class="py-0 mb-0">&copy <?php echo date('Y');?> <a href="http://uiisc.org" target="_blank">UIISC</a> All Rights Reserved. Powered by <a href="https://crogram.org" target="_blank">CROGRAM</a></p>
