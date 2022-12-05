@@ -730,6 +730,7 @@ try {
         } else if (!empty($extent) && mb_strlen(json_encode($extent)) > 10000) {
             $response = json(__('Too much content'), 500);
         } else {
+            $extent = json_decode($extent, true);
             $response = urlToShort($url, $encrypt_type, isset($extent) && !empty($extent) ? $extent : []);
             $response = json(__('Link created successfully'), 200, $response);
         }
