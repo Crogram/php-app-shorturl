@@ -6,7 +6,7 @@
 
 #### 体验预览
 
-[url.uiisc.ml](http://url.uiisc.ml)
+[shorturl.uiisc.com](http://shorturl.uiisc.com)
 
 ![preview](WX20221126-114544.jpg)
 
