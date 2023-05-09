@@ -6,7 +6,7 @@
 
 #### 体验预览
 
-[shorturl.uiisc.com](http://shorturl.uiisc.com)
+[php-app-shorturl.uiisc.com](http://php-app-shorturl.uiisc.com)
 
 ![preview](WX20221126-114544.jpg)
 
